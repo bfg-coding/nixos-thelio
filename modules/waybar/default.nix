@@ -78,35 +78,34 @@ in
     };
 
     settings = {
-      # Laptop/Single Monitor Configuration
+      # Primary Monitor Bar (Main workspaces 1-5)
       mainBar = {
         layer = "top";
         position = "top";
-        output = [ "DP-2" ]; # Laptop display
+        # Auto-detect primary monitor - update these if you know your monitor names
+        output = [ "DP-2" ]; # Uncomment and set to your primary monitor
         height = 32;
         spacing = 4;
         margin-top = spacing.xs;
         margin-left = spacing.sm;
         margin-right = spacing.sm;
 
-        # Module layout - clean and functional for laptop
+        # Module layout for primary monitor
         modules-left = [ "hyprland/workspaces" "hyprland/window" ];
         modules-center = [ "clock" ];
         modules-right = [
           "network"
-          "bluetooth"
           "pulseaudio"
-          "backlight"
-          "battery"
           "cpu"
           "memory"
           "tray"
+          "custom/power"
         ];
 
-        # Workspaces with proper styling
+        # Primary monitor workspaces (1-5)
         "hyprland/workspaces" = {
           disable-scroll = true;
-          all-outputs = false;
+          all-outputs = false; # Only show this monitor's workspaces
           warp-on-scroll = false;
           format = "{icon}";
           format-icons = {
@@ -115,14 +114,18 @@ in
             "3" = "󰉋"; # Files
             "4" = "󰙯"; # Communication
             "5" = "󰝚"; # Media/Music
-            "6" = "󰊴"; # Documents
-            "7" = "󰊗"; # Games/Fun
-            "8" = "󰐾"; # Settings
-            "9" = "󰍉"; # Downloads
-            "10" = "󰜎"; # Misc
             "urgent" = "";
             "focused" = "";
             "default" = "󰋙";
+          };
+
+          # Only show workspaces 1-5 on primary monitor
+          persistent-workspaces = {
+            "1" = [ ];
+            "2" = [ ];
+            "3" = [ ];
+            "4" = [ ];
+            "5" = [ ];
           };
 
           # Smooth scrolling between workspaces
@@ -130,9 +133,9 @@ in
           on-scroll-down = "hyprctl dispatch workspace e-1";
         };
 
-        # Window title with better truncation
+        # Window title with better truncation for primary monitor
         "hyprland/window" = {
-          max-length = 50;
+          max-length = 60; # Longer for main monitor
           separate-outputs = true;
           rewrite = {
             "(.*) — Mozilla Firefox" = "🌐 $1";
@@ -187,24 +190,7 @@ in
           on-click-right = "${pkgs.networkmanager}/bin/nmcli device wifi rescan";
         };
 
-        # Bluetooth module for laptop
-        "bluetooth" = {
-          format = " {status}";
-          format-disabled = "󰂲";
-          format-off = "󰂲";
-          format-on = "󰂯";
-          format-connected = "󰂱 {device_alias}";
-          format-connected-battery = "󰂱 {device_alias} {device_battery_percentage}%";
-          tooltip-format = "{controller_alias}\t{controller_address}\n\n{num_connections} connected";
-          tooltip-format-connected = "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}";
-          tooltip-format-enumerate-connected = "{device_alias}\t{device_address}";
-          tooltip-format-enumerate-connected-battery = "{device_alias}\t{device_address}\t{device_battery_percentage}%";
-
-          on-click = "${pkgs.blueman}/bin/blueman-manager";
-          # on-click-right = "${pkgs.bluetoothctl}/bin/bluetoothctl power toggle";
-        };
-
-        # Enhanced audio control for laptop
+        # Enhanced audio control (primary monitor gets full control)
         "pulseaudio" = {
           format = "{icon} {volume}%";
           format-bluetooth = "{icon}  {volume}%";
@@ -228,38 +214,6 @@ in
           on-click-right = "${pkgs.wireplumber}/bin/wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
           on-scroll-up = "${pkgs.wireplumber}/bin/wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 5%+";
           on-scroll-down = "${pkgs.wireplumber}/bin/wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 5%-";
-        };
-
-        # Backlight control for laptop
-        "backlight" = {
-          device = "intel_backlight";
-          format = "{icon} {percent}%";
-          format-icons = [ "󰃞" "󰃟" "󰃠" ];
-          tooltip = true;
-          tooltip-format = "Brightness: {percent}%";
-
-          on-scroll-up = "${pkgs.brightnessctl}/bin/brightnessctl set +5%";
-          on-scroll-down = "${pkgs.brightnessctl}/bin/brightnessctl set 5%-";
-        };
-
-        # Battery with detailed status for laptop
-        "battery" = {
-          interval = 30;
-          states = {
-            good = 95;
-            warning = 30;
-            critical = 15;
-          };
-
-          format = "{icon} {capacity}%";
-          format-charging = "󰂄 {capacity}%";
-          format-plugged = "󰂄 {capacity}%";
-          format-alt = "{icon} {time}";
-          format-full = "󰁹 Full";
-          format-icons = [ "󰁺" "󰁻" "󰁼" "󰁽" "󰁾" "󰁿" "󰂀" "󰂁" "󰂂" "󰁹" ];
-
-          tooltip = true;
-          tooltip-format = "{timeTo}, {capacity}%\n{power:.1f}W";
         };
 
         # System monitoring
@@ -288,10 +242,93 @@ in
           icon-size = 18;
           spacing = 8;
         };
+
+        # Power menu button
+        "custom/power" = {
+          format = "⏻";
+          tooltip = false;
+          on-click = "${pkgs.rofi-wayland}/bin/rofi -show power-menu -modi power-menu:~/.local/bin/rofi-power-menu";
+          escape = true;
+        };
+      };
+
+      # Secondary Monitor Bar (Workspaces 6-10)
+      secondaryBar = {
+        layer = "top";
+        position = "top";
+        # Auto-detect secondary monitor - update if you know your monitor names
+        output = [ "DP-3" ]; # Uncomment and set to your secondary monitor
+        height = 32;
+        spacing = 4;
+        margin-top = spacing.xs;
+        margin-left = spacing.sm;
+        margin-right = spacing.sm;
+
+        # Module layout for secondary monitor
+        modules-left = [ "hyprland/workspaces" "hyprland/window" ];
+        modules-center = [ "clock" ];
+        modules-right = [ "custom/monitor-info" ];
+
+        # Secondary monitor workspaces (6-10)
+        "hyprland/workspaces" = {
+          disable-scroll = true;
+          all-outputs = false;
+          warp-on-scroll = false;
+          format = "{icon}";
+          format-icons = {
+            "6" = "󰊴"; # Documents
+            "7" = "󰊗"; # Games/Fun
+            "8" = "󰐾"; # Settings
+            "9" = "󰍉"; # Downloads
+            "10" = "󰜎"; # Misc
+            "urgent" = "";
+            "focused" = "";
+            "default" = "󰋙";
+          };
+
+          # Only show workspaces 6-10 on secondary monitor
+          persistent-workspaces = {
+            "6" = [ ];
+            "7" = [ ];
+            "8" = [ ];
+            "9" = [ ];
+            "10" = [ ];
+          };
+
+          # Smooth scrolling between workspaces
+          on-scroll-up = "hyprctl dispatch workspace e+1";
+          on-scroll-down = "hyprctl dispatch workspace e-1";
+        };
+
+        # Window title for secondary monitor
+        "hyprland/window" = {
+          max-length = 45; # Shorter for secondary monitor
+          separate-outputs = true;
+          rewrite = {
+            "(.*) — Mozilla Firefox" = "🌐 $1";
+            "(.*) - Visual Studio Code" = "💻 $1";
+            "(.*) - Helix" = "📝 $1";
+            "(.*)Spotify" = "🎵 $1";
+            "(.*)Discord" = "💬 Discord";
+          };
+        };
+
+        # Simpler clock for secondary monitor
+        "clock" = {
+          format = "{:%H:%M}"; # 24-hour format for secondary
+          format-alt = "{:%m-%d}";
+          tooltip-format = "{:%Y-%m-%d | %H:%M}";
+        };
+
+        # Monitor indicator for secondary
+        "custom/monitor-info" = {
+          format = "󰍹 Secondary";
+          tooltip = "Secondary Monitor";
+        };
       };
     };
 
-    # Completely redesigned CSS using extracted design system values
+    # Enhanced CSS using extracted design system values
     style = ''
       /* Global styling using design system */
       * {
@@ -383,13 +420,12 @@ in
       
       /* Right modules container */
       #network,
-      #bluetooth,
-      #backlight,
-      #battery,
       #cpu,
       #memory,
       #pulseaudio,
-      #tray {
+      #tray,
+      #custom-monitor-info,
+      #custom-power {
         padding: ${spacing.xsStr}px ${spacing.smStr}px;
         margin: 0 ${spacing.xsStr}px;
         background-color: ${colors.surface1};
@@ -402,37 +438,12 @@ in
       
       /* Hover effects for modules */
       #network:hover,
-      #bluetooth:hover,
-      #backlight:hover,
       #cpu:hover,
       #memory:hover,
       #pulseaudio:hover {
         background-color: ${colors.surface2};
         border-color: ${colors.primary500};
         opacity: 1;
-      }
-      
-      /* Battery status colors */
-      #battery.charging {
-        color: ${colors.successColor};
-        border-color: ${colors.successColor};
-      }
-      
-      #battery.warning {
-        color: ${colors.warningColor};
-        border-color: ${colors.warningColor};
-      }
-      
-      #battery.critical {
-        color: ${colors.errorColor};
-        border-color: ${colors.errorColor};
-        animation: critical-blink 1s ease-in-out infinite;
-      }
-      
-      @keyframes critical-blink {
-        0% { opacity: 1; }
-        50% { opacity: 0.5; }
-        100% { opacity: 1; }
       }
       
       /* Network status indicators */
@@ -449,17 +460,6 @@ in
       #network.ethernet {
         color: ${colors.successColor};
         border-color: ${colors.successColor};
-      }
-      
-      /* Bluetooth states */
-      #bluetooth.connected {
-        color: ${colors.infoColor};
-        border-color: ${colors.infoColor};
-      }
-      
-      #bluetooth.off {
-        color: ${colors.textTertiary};
-        opacity: 0.5;
       }
       
       /* Audio muted state */
@@ -481,6 +481,25 @@ in
       #tray > .needs-attention {
         -gtk-icon-effect: highlight;
         color: ${colors.warningColor};
+      }
+      
+      /* Secondary monitor specific styling */
+      #custom-monitor-info {
+        color: ${colors.textTertiary};
+        font-size: 11pt;
+        opacity: 0.8;
+      }
+      
+      /* Power button styling */
+      #custom-power {
+        color: ${colors.errorColor};
+        border-color: ${colors.errorColor};
+        font-weight: ${typography.fontWeightBold};
+      }
+      
+      #custom-power:hover {
+        background-color: ${colors.errorColor};
+        color: ${colors.bgPrimary};
       }
       
       /* Tooltip styling */
