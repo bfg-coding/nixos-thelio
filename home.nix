@@ -68,6 +68,32 @@
   services.ssh-agent.enable = true;
 
 
+  # Configure SSH client declaratively
+  programs.ssh = {
+    enable = true;
+    addKeysToAgent = "yes";
+
+    # Declarative SSH config
+    matchBlocks = {
+      # Work servers
+      "ssh.dev.azure.com" = {
+        identityFile = "~/.ssh/stg_azureDevops";
+        user = "git";
+      };
+
+      # Personal repos
+      "github.com" = {
+        identityFile = "~/.ssh/bfg_github";
+        user = "git";
+      };
+
+      # Default for all hosts
+      "*" = {
+        identitiesOnly = true;
+      };
+    };
+  };
+
   # XDG configuration for default applications
   xdg = {
     enable = true;
