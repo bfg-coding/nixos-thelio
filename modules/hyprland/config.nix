@@ -10,6 +10,8 @@
       # Set cosmic-files as the default file manager
       "FILE_MANAGER,cosmic-files"
       "XDG_CURRENT_DESKTOP,Hyprland"
+      "XDG_SESSION_TYPE,wayland"
+      "XDG_SESSION_DESKTOP,Hyprland"
     ];
 
     # Workspace assignments to monitors
@@ -33,6 +35,7 @@
     exec-once = [
       "dunst"
       "${pkgs.swww}/bin/swww init"
+      "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
     ];
 
     # General settings

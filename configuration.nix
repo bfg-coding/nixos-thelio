@@ -56,12 +56,24 @@
   services.xserver.enable = true;
 
   # XDG Portal for screen sharing
+
   xdg.portal = {
     enable = true;
+
     extraPortals = with pkgs; [
-      xdg-desktop-portal-wlr
+      xdg-desktop-portal-hyprland
       xdg-desktop-portal-gtk
     ];
+
+    config = {
+      common = {
+        default = [ "gtk" ];
+      };
+      hyprland = {
+        default = [ "hyprland" "gtk" ];
+        "org.freedesktop.impl.portal.FileChooser" = [ "gtk" ];
+      };
+    };
   };
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
