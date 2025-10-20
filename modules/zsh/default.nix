@@ -17,7 +17,7 @@
       plugins = [ "git" "docker" "sudo" ];
     };
     shellAliases = {
-      nrs = "sudo nixos-rebuild switch --flake ~/.nixos-config#nixos-thelio";
+      nrs = "sudo nixos-rebuild switch --flake ~/.nixos_config#nixos-thelio";
       upgrade = "sudo nix flake update && nrs";
       lg = "lazygit";
     };

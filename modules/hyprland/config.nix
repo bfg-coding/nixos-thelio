@@ -16,12 +16,12 @@
 
     # Workspace assignments to monitors
     workspace = [
-      # Primary workspaces on main monitor (DP-5 - your ultrawide)
-      "1, monitor:DP-2, default:true"
-      "2, monitor:DP-2"
-      "3, monitor:DP-2"
-      "4, monitor:DP-2"
-      "5, monitor:DP-2"
+      # Primary workspaces on main monitor
+      "1, monitor:eDP-1, default:true"
+      "2, monitor:eDP-1"
+      "3, monitor:eDP-1"
+      "4, monitor:eDP-1"
+      "5, monitor:eDP-1"
 
       # Secondary workspaces on second monitor (DP-4)
       "6, monitor:DP-3"

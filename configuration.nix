@@ -13,13 +13,13 @@
     ];
 
   # Use the systemd-boot EFI boot loader.
-  # boot.loader.systemd-boot.enable = true;
-  # boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
 
   # Use GRUB for Legacy BIOS
-  boot.loader.grub.enable = true;
-  boot.loader.grub.device = "/dev/nvme0n1"; # Install GRUB to the disk
-  boot.loader.grub.useOSProber = true; # Detect other operating systems
+  # boot.loader.grub.enable = true;
+  # boot.loader.grub.device = "/dev/nvme0n1"; # Install GRUB to the disk
+  # boot.loader.grub.useOSProber = true; # Detect other operating systems
 
   system.stateVersion = "25.05";
 
@@ -132,6 +132,8 @@
     xwayland.enable = true;
   };
 
+  programs.niri.enable = true;
+
   # Enable the display manager (required to start Hyprland)
   services.displayManager.sddm = {
     enable = true;
@@ -191,56 +193,6 @@
     # for Dygma keyboards
     bazecor
   ];
-
-
-  # ===== JETBRAINS REQUIREMENTS (Remove when removing JetBrains) =====
-  programs.nix-ld = {
-    enable = true;
-    libraries = with pkgs; [
-      curl
-      expat
-      fontconfig
-      freetype
-      fuse
-      fuse3
-      glib
-      icu
-      libclang.lib
-      libdbusmenu
-      libxcrypt-legacy
-      libxml2
-      nss
-      python3
-      stdenv.cc.cc
-      xorg.libX11
-      xorg.libXcursor
-      xorg.libXext
-      xorg.libXi
-      xorg.libXrender
-      xorg.libXtst
-      xz
-      zlib
-      alsa-lib
-      at-spi2-atk
-      at-spi2-core
-      atk
-      cairo
-      cups
-      dbus
-      gtk3
-      libdrm
-      libGL
-      libappindicator-gtk3
-      libxkbcommon
-      mesa
-      nspr
-      pango
-      systemd
-      vulkan-loader
-    ];
-  };
-
-  # ===== END JETBRAINS REQUIREMENTS =====
 
   # Configureation Environment variables
   environment.variables = {

@@ -1,4 +1,3 @@
-# modules/waybar/default.nix
 { config, pkgs, lib, stylesheet, ... }:
 
 let
@@ -83,7 +82,7 @@ in
         layer = "top";
         position = "top";
         # Auto-detect primary monitor - update these if you know your monitor names
-        output = [ "DP-2" ]; # Uncomment and set to your primary monitor
+        output = [ "eDP-1" ]; # Uncomment and set to your primary monitor
         height = 32;
         spacing = 4;
         margin-top = spacing.xs;

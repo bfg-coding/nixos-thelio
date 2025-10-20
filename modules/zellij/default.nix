@@ -1,9 +1,9 @@
-{ stylesheet, unstable, ... }:
+{ stylesheet, pkgs, ... }:
 
 {
   programs.zellij = {
     enable = true;
-    package = unstable.zellij;
+    package = pkgs.zellij;
 
     # Set the theme to use CrystalNix values
     settings = {

@@ -15,7 +15,7 @@
     };
 
     crystalnix = {
-      url = "path:/home/justin/Repo/bfg/crystalnix";
+      url = "path:/home/justin/.nixos_config/crystalnix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };

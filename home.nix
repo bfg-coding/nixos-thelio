@@ -17,6 +17,7 @@
     ./modules/development
     ./modules/rofi
     ./modules/hyprland
+    ./modules/niri
     ./modules/waybar
     ./modules/yazi
     ./modules/zsh
