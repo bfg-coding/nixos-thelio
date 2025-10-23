@@ -1,0 +1,3 @@
+- Migrate from cosmic files to thunar
+- Work out the c/c++ deps bug
+- finish the power menu system
