@@ -4,7 +4,7 @@
   imports = [
     ./config.nix # Core Niri configuration
     ./binds.nix # Keybindings
-    ./rules.nix # Window rules
+    # ./rules.nix # Window rules
   ];
 
   # Essential Niri packages
