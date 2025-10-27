@@ -14,4 +14,9 @@
     enableZshIntegration = true;
     nix-direnv.enable = true;
   };
+
+  # Add core development libraries and tools - using STABLE OpenSSL
+  home.packages = with pkgs; [
+    inotify-tools
+  ];
 }
