@@ -194,6 +194,32 @@
     bazecor
   ];
 
+
+  programs.nix-ld = {
+    enable = true;
+    libraries = with pkgs; [
+      # Common libraries that many dynamic binaries need
+      stdenv.cc.cc
+
+      # C/C++ toolchain (essential for many build processes)
+      gcc
+      binutils
+      gnumake
+
+      # Build tools
+      pkg-config
+      cmake
+
+      # Common development libraries
+      zlib
+      zlib.dev
+
+      # OpenSSL
+      openssl
+      openssl.dev
+    ];
+  };
+
   # Configureation Environment variables
   environment.variables = {
     EDITOR = "hx";
