@@ -2,35 +2,36 @@
 
 {
   home.packages = with pkgs; [
-    # Core C/C++ toolchain
-    gcc # GNU Compiler Collection
-    clang # LLVM C/C++ compiler (alternative to gcc)
-    llvmPackages.libcxxClang # C++ standard library for clang
+    # Core toolchain
+    clang
 
     # Build systems
-    cmake # Cross-platform build system
-    gnumake # GNU Make
-    ninja # Fast build system
-    meson # Modern build system
+    cmake
+    gnumake
+    ninja
 
-    # Debugging and profiling
-    gdb # GNU Debugger
-    lldb # LLVM Debugger
-    valgrind # Memory debugging and profiling
+    # Debugging
+    lldb
+    valgrind
 
-    # Code analysis and formatting
-    cppcheck # Static analysis
-    clang-tools # clang-format, clang-tidy, etc.
+    # Code tools
+    cppcheck
+    clang-tools # clang-format, clang-tidy, clangd
 
-    # Language server
-    clang-tools # Includes clangd LSP
+    # Build optimization
+    ccache
+    bear
+    pkg-config
 
-    # Package managers
-    vcpkg # C++ package manager
+    # Package manager
+    vcpkg
 
-    # Additional useful tools
-    ccache # Compiler cache for faster rebuilds
-    bear # Generate compile_commands.json
+    # Graphics/Game libraries
+    SDL2
+    SDL2_image
+    glfw
+    glm
+    openal
   ];
 
   # ZSH aliases for C/C++ development

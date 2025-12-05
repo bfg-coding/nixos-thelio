@@ -7,7 +7,7 @@
     ./csharp.nix
     ./typescript.nix
     ./elixir.nix
-    # ./c.nix
+    ./c.nix
     ./odin.nix
     ./zig.nix
   ];
