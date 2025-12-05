@@ -93,6 +93,7 @@ in
         modules-left = [ "hyprland/workspaces" "hyprland/window" ];
         modules-center = [ "clock" ];
         modules-right = [
+          "battery"
           "network"
           "pulseaudio"
           "cpu"
@@ -187,6 +188,24 @@ in
 
           on-click = "${pkgs.networkmanagerapplet}/bin/nm-connection-editor";
           on-click-right = "${pkgs.networkmanager}/bin/nmcli device wifi rescan";
+        };
+
+
+        # Add this to your mainBar settings, after the memory module
+        "battery" = {
+          interval = 60;
+          states = {
+            warning = 30;
+            critical = 15;
+          };
+          format = "{icon} {capacity}%";
+          format-charging = "󰂄 {capacity}%";
+          format-plugged = "󰚥 {capacity}%";
+          format-full = "󱈑 {capacity}%";
+          format-icons = [ "󰂎" "󰁺" "󰁻" "󰁼" "󰁽" "󰁾" "󰁿" "󰂀" "󰂁" "󰂂" "󰁹" ];
+
+          tooltip = true;
+          tooltip-format = "Battery: {capacity}%\nTime: {time}\nPower: {power}W";
         };
 
         # Enhanced audio control (primary monitor gets full control)
@@ -459,6 +478,41 @@ in
       #network.ethernet {
         color: ${colors.successColor};
         border-color: ${colors.successColor};
+      }
+
+      /* Battery styling */
+      #battery {
+        color: ${colors.successColor};
+        border-color: ${colors.successColor};
+      }
+
+      #battery.charging {
+        color: ${colors.infoColor};
+        border-color: ${colors.infoColor};
+        animation: charging-pulse 2s ease-in-out infinite;
+      }
+
+      #battery.warning:not(.charging) {
+        color: ${colors.warningColor};
+        border-color: ${colors.warningColor};
+      }
+
+      #battery.critical:not(.charging) {
+        color: ${colors.errorColor};
+        border-color: ${colors.errorColor};
+        animation: critical-pulse 1s ease-in-out infinite;
+      }
+
+      @keyframes charging-pulse {
+        0% { opacity: 0.9; }
+        50% { opacity: 1; }
+        100% { opacity: 0.9; }
+      }
+
+      @keyframes critical-pulse {
+        0% { opacity: 1; }
+        50% { opacity: 0.6; }
+        100% { opacity: 1; }
       }
       
       /* Audio muted state */
